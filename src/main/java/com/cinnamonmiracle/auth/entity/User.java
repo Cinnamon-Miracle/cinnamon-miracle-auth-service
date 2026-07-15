@@ -1,6 +1,7 @@
 package com.cinnamonmiracle.auth.entity;
 
 import com.cinnamonmiracle.common.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +14,9 @@ import jakarta.validation.constraints.Size;
 /** Port of models/User.js */
 @Entity
 @Table(name = "users")
+// Omit unset optional fields (dob/mobile/address/profilePicture) from JSON, so
+// the shape matches Mongoose, which drops undefined fields.
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends BaseEntity {
 
     @NotBlank
