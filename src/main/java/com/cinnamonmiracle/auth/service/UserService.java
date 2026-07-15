@@ -28,7 +28,10 @@ public class UserService {
             long totalUsers = userRepository.count();
             int totalPages = (int) Math.ceil((double) totalUsers / size);
 
-            List<User> users = userRepository.findAll(PageRequest.of(page - 1, size)).getContent();
+            // Sort by id ascending to match MongoDB's natural (_id insertion) order.
+            List<User> users = userRepository.findAll(PageRequest.of(page - 1, size,
+                    org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.ASC, "id")))
+                    .getContent();
 
             Map<String, Object> pagination = new LinkedHashMap<>();
             pagination.put("currentPage", page);
